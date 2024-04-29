@@ -1,0 +1,57 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "definitions": {
+    "peripheral": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "buttonCount": {
+          "type": "number"
+        },
+        "wheelCount": {
+          "type": "number"
+        },
+        "keys": {
+          "type": "number"
+        }
+      }
+    },
+
+    "mouse": {
+      "type": "object",
+      "allOf": [{ "$ref": "#/definitions/peripheral" }],
+      "properties": {
+        "name": {},
+        "buttonCount": {},
+        "wheelCount": {},
+        "keys": {
+          "not": {}
+        }
+      },
+      "required": ["name", "buttonCount", "wheelCount"],
+      "additionalProperties": false
+    },
+    "keyboard": {
+      "type": "object",
+      "allOf": [{ "$ref": "#/definitions/peripheral" }],
+      "properties": {
+        "buttonCount": {
+          "not": {}
+        },
+        "wheelCount": {
+          "not": {}
+        },
+        "name": {},
+        "keys": {}
+      },
+      "required": ["name", "keys"],
+      "additionalProperties": false
+    }
+  },
+  "type": "object",
+  "oneOf": [
+    { "$ref": "#/definitions/mouse" },
+    { "$ref": "#/definitions/keyboard" }]
+}
