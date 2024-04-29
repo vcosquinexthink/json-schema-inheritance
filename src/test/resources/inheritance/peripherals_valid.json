@@ -1,0 +1,19 @@
+[
+  {
+    "name": "supermouse",
+    "buttonCount": 1,
+    "wheelCount": 2,
+    "type": "mouse"
+  },
+  {
+    "name": "mousez",
+    "buttonCount": 10,
+    "wheelCount": 20,
+    "type": "mouse"
+  },
+  {
+    "name": "mk-keyboard",
+    "keyCount": 1,
+    "type": "keyboard"
+  }
+]
