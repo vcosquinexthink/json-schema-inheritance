@@ -1,12 +1,18 @@
 package com.nexthink.inheritance;
 
-public class Mouse extends Peripheral {
-    private final Integer buttonCount;
-    private final Integer wheelCount;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-    public Mouse(String name, Integer buttonCount, Integer wheelCount) {
-        super(name);
-        this.buttonCount = buttonCount;
-        this.wheelCount = wheelCount;
+@NoArgsConstructor
+@Data
+@JsonIgnoreProperties(ignoreUnknown = true)
+public class Mouse extends Peripheral {
+    private Integer buttonCount;
+    private Integer wheelCount;
+
+    @Override
+    public Driver getDriver() {
+        return new MouseDriver();
     }
 }

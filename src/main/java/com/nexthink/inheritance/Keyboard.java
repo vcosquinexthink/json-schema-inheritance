@@ -1,10 +1,17 @@
 package com.nexthink.inheritance;
 
-public class Keyboard extends Peripheral {
-    private final Integer keyCount;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-    public Keyboard(String name, Integer keyCount) {
-        super(name);
-        this.keyCount = keyCount;
+@NoArgsConstructor
+@Data
+@JsonIgnoreProperties(ignoreUnknown = true)
+public class Keyboard extends Peripheral {
+    private Integer keyCount;
+
+    @Override
+    public Driver getDriver() {
+        return new KeyboardDriver();
     }
 }

@@ -1,5 +1,6 @@
 {
   "name": "supermouse",
   "buttonCount": 1,
-  "wheelCount": 2
+  "wheelCount": 2,
+  "type": "mouse"
 }

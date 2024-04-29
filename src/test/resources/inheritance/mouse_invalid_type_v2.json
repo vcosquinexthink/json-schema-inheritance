@@ -1,6 +1,6 @@
 {
   "name": "supermouse",
   "buttonCount": 1,
-  "keys": 2,
-  "type": "mouse"
+  "wheelCount": 2,
+  "type": "keyboard"
 }

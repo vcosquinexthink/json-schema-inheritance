@@ -4,54 +4,44 @@
     "peripheral": {
       "type": "object",
       "properties": {
-        "name": {
-          "type": "string"
-        },
-        "buttonCount": {
-          "type": "number"
-        },
-        "wheelCount": {
-          "type": "number"
-        },
-        "keys": {
-          "type": "number"
+        "name": {"type": "string"},
+        "buttonCount": {"type": "number"},
+        "wheelCount": {"type": "number"},
+        "keys": {"type": "number"},
+        "type": {"enum": ["mouse", "keyboard"]
         }
       }
     },
-
     "mouse": {
       "type": "object",
-      "allOf": [{ "$ref": "#/definitions/peripheral" }],
+      "allOf": [{"$ref": "#/definitions/peripheral"}],
       "properties": {
         "name": {},
         "buttonCount": {},
         "wheelCount": {},
-        "keys": {
-          "not": {}
-        }
+        "type": {"enum": ["mouse"]},
+        "keys": {"not": {}}
       },
-      "required": ["name", "buttonCount", "wheelCount"],
+      "required": ["name", "buttonCount", "wheelCount", "type"],
       "additionalProperties": false
     },
     "keyboard": {
       "type": "object",
-      "allOf": [{ "$ref": "#/definitions/peripheral" }],
+      "allOf": [{"$ref": "#/definitions/peripheral"}],
       "properties": {
-        "buttonCount": {
-          "not": {}
-        },
-        "wheelCount": {
-          "not": {}
-        },
+        "buttonCount": {"not": {}},
+        "wheelCount": {"not": {}},
         "name": {},
-        "keys": {}
+        "keys": {},
+        "type": {"enum": ["keyboard"]}
       },
-      "required": ["name", "keys"],
+      "required": ["name", "keys", "type"],
       "additionalProperties": false
     }
   },
   "type": "object",
   "oneOf": [
-    { "$ref": "#/definitions/mouse" },
-    { "$ref": "#/definitions/keyboard" }]
+    {"$ref": "#/definitions/mouse"},
+    {"$ref": "#/definitions/keyboard"}
+  ]
 }

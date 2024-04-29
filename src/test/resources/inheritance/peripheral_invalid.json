@@ -2,5 +2,6 @@
   "name": "abstract",
   "buttonCount": 1,
   "wheelCount": 2,
-  "keys": 3
+  "keys": 3,
+  "type": "keyboard"
 }

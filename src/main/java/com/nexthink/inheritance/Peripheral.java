@@ -1,9 +1,10 @@
 package com.nexthink.inheritance;
 
-public class Peripheral {
+import lombok.Data;
+
+@Data
+public abstract class Peripheral {
     private String name;
 
-    public Peripheral(String name) {
-        this.name = name;
-    }
+    public abstract Driver getDriver();
 }
