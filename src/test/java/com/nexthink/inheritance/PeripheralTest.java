@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.networknt.schema.JsonSchema;
 import com.networknt.schema.JsonSchemaFactory;
 import com.networknt.schema.SpecVersion;
+import com.networknt.schema.SpecVersion.VersionFlag;
 import lombok.SneakyThrows;
 import lombok.val;
 import org.junit.jupiter.api.Test;
@@ -16,31 +17,39 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class PeripheralTest {
 
+    public static final String PERIPHERAL_SCHEMA = "/inheritance/schema.json";
+    public static final String INVALID_PERIPHERAL = "/inheritance/peripheral_invalid.json";
+    public static final String VALID_MOUSE = "/inheritance/mouse_valid.json";
+    public static final String VALID_PERIPHERALS = "/inheritance/peripherals_valid.json";
+
     private final ObjectMapper mapper;
     private final JsonSchema jsonSchema;
 
     @SneakyThrows
     public PeripheralTest() {
         mapper = new ObjectMapper();
-        jsonSchema = JsonSchemaFactory.getInstance(SpecVersion.VersionFlag.V4)
-                .getSchema(PeripheralTest.class.getResourceAsStream("/inheritance/schema.json"));
+        jsonSchema = JsonSchemaFactory.getInstance(VersionFlag.V4)
+                .getSchema(PeripheralTest.class.getResourceAsStream(PERIPHERAL_SCHEMA));
     }
 
     @Test
     @SneakyThrows
-    public void deviceIsAbstract() {
+    public void invalidPeripheralCanNotBeDeserialized() {
         val jsonNode = mapper.readTree(
-                PeripheralTest.class.getResourceAsStream("/inheritance/peripheral_invalid.json"));
+                PeripheralTest.class.getResourceAsStream(INVALID_PERIPHERAL));
         assertThat(jsonSchema.validate(jsonNode)).isNotEmpty();
     }
 
     @Test
     @SneakyThrows
-    public void readAsPeripheral() {
+    public void readMouseAsPeripheral() {
         val jsonNode = mapper.readTree(
-                PeripheralTest.class.getResourceAsStream("/inheritance/mouse_valid.json"));
+                PeripheralTest.class.getResourceAsStream(VALID_MOUSE));
         assertThat(jsonSchema.validate(jsonNode)).isEmpty();
-        val mouse = mapper.readValue(PeripheralTest.class.getResourceAsStream("/inheritance/mouse_valid.json"), Peripheral.class);
+
+        val mouse = mapper.readValue(
+                PeripheralTest.class.getResourceAsStream(VALID_MOUSE),
+                Peripheral.class);
         // object-oriented world
         assertTrue(mouse.getDriver() instanceof Driver);
     }
@@ -49,12 +58,12 @@ public class PeripheralTest {
     @SneakyThrows
     public void allPeripheralsProvideADriver() {
         val jsonNode = mapper.readTree(
-                PeripheralTest.class.getResourceAsStream("/inheritance/peripherals_valid.json"));
-        jsonSchema.validate(jsonNode).forEach(node ->
-                assertThat(jsonSchema.validate(jsonNode).isEmpty())
-        );
+                PeripheralTest.class.getResourceAsStream(VALID_PERIPHERALS));
+        assertThat(jsonSchema.validate(jsonNode).isEmpty());
 
-        val peripherals = mapper.readValue(PeripheralTest.class.getResourceAsStream("/inheritance/peripherals_valid.json"), new TypeReference<List<Peripheral>>() {});
+        val peripherals = mapper.readValue(
+                PeripheralTest.class.getResourceAsStream(VALID_PERIPHERALS),
+                new TypeReference<List<Peripheral>>() {});
         // object-oriented world
         peripherals.forEach(peripheral ->
                 assertTrue(peripheral.getDriver() instanceof Driver));
